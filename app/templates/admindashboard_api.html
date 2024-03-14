@@ -1,0 +1,25 @@
+{% extends 'admin_settings_base.html' %}
+
+{% block main_content %}
+<br />
+<a href="/api/startup">API Startup</a>
+<p>Currently not in use, as the scheduler is not setup...</p>
+<br />
+<a href="/api/shutdown">API Shutdown</a>
+<p>Currently not in use, as the scheduler is not setup...</p>
+<br />
+<a href="/api/runtickerlist">API-RUN tickerlist</a>
+<p>This will run the API to get all tickers in the polygon "common stock" section.</p>
+<br />
+<a href="/api/runtickerdetails">API-RUN tickerdetails</a>
+<p>This will run the API to get all details to the tickers</p>
+<br />
+<a href="/api/runtickergroupeddaily">API-RUN tickergroupeddaily</a>
+<p>This will run the API to get all daily data for all stocks.</p>
+<br />
+<a href="/api/runtickeraggs">API runtickeraggs</a>
+<p>This could be set up for more detailed stonk aggregates, if there were charts for it.</p>
+<br />
+
+
+{% endblock %}

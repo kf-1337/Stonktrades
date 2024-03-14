@@ -1,0 +1,138 @@
+{% extends 'content_base.html' %}
+
+{% block main_content %}
+
+<div id="stonks_top_half_div">
+  <div id="stonks_forms_div">
+    <h1>{{ renderstonkdata.ticker }}: {{ renderstonkdata.name }}</h1>
+
+    <div id="stonks_watchlist_form_div">
+      <form method="POST" action="/stonks/{{ stonk }}?form=watchlist">
+        {{ formwatchlist.hidden_tag() }}
+        <!-- {{ formwatchlist.watchlist.label }} -->
+        {{ formwatchlist.watchlist }}
+        <button>Update Watchlist</button>
+        <br/>
+      </form>
+    </div>
+
+    <div id="stonks_buy_form_div">
+      <form method="post" action="/stonks/{{ stonk }}?form=buy">
+        {{ formbuy.hidden_tag() }}
+        {{ formbuy.amount.label }}
+        <br />
+        {{ formbuy.amount }}
+        <br />
+        {{ formbuy.submit }}
+      </form>
+    
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div>
+      <br/>
+        {{ messages[0] }}
+    </div>
+    {% endif %}
+    {% endwith %}
+    </div>
+
+    <div id="stonks_sell_form_div">
+      <form method="post" action="/stonks/{{ stonk }}?form=sell">
+        {{ formsell.hidden_tag() }}
+        {{ formsell.amount.label }}
+        <br />
+        {{ formsell.amount }}
+        <br />
+        {{ formsell.submit }}
+      </form>
+    </div>
+  </div>
+
+  <div id="stonks_chart_div">
+    <button onclick="oneweekbutton('1w', document.title)"><i class="timebutton"></i>1 Week</button>
+    <button onclick="onemonthbutton('1m',document.title)"><i class="timebutton"></i>1 Month</button>
+    <button onclick="threemonthsbutton('3m',document.title)"><i class="timebutton"></i>3 Months</button>
+    <button onclick="sixmonthsbutton('6m',document.title)"><i class="timebutton"></i>6 Months</button>
+    <button onclick="oneyearbutton('1y',document.title)"><i class="timebutton"></i>1 Year</button>
+    <canvas id="stonks_chart_canvas"><p>Canvas with Stonk over time..</p></canvas>
+  </div>
+</div>
+<div id="bottom_information_div">
+  <h2>Details to the stonk:</h2>
+  <p>{{ renderstonkdata.description }}</p>
+  <div id="bottom_information_data_div">
+    <div id="bottom_information_data_company_div">
+      <p>Homepage: {{ renderstonkdata.homepage_url }}</p>
+      <p>Address: {{ renderstonkdata.address }}</p>
+      <p>city: {{ renderstonkdata.city }}</p>
+      <p>Postal Code: {{ renderstonkdata.postal_code }}</p>
+      <p>State: {{ renderstonkdata.state }}</p>
+      <p>No of employees: {{ renderstonkdata.total_employees }}</p>
+      <p>SIC Code: {{ renderstonkdata.sic_code }}</p>
+      <p>SIC Descr.: {{ renderstonkdata.sic_description }}</p>
+    </div>
+    <div id="bottom_information_data_stonk_div">
+      <p>Listed on: {{ renderstonkdata.list_date }}</p>
+      <p>Exchange: {{ renderstonkdata.primary_exchange }}</p>
+      <p>Type of Stock: {{ renderstonkdata.type }}</p>
+      <p>CIK: {{ renderstonkdata.cik }}</p>
+      <p>COMP FIGI: {{ renderstonkdata.composite_figi }}</p>
+      <p>Currency: {{ renderstonkdata.currency_name }}</p>
+      <p>Locale: {{ renderstonkdata.locale }}</p>
+      <p>Market: {{ renderstonkdata.market }}</p>
+      <p>Market Cap: {{ renderstonkdata.market_cap }}</p>
+      <p>Weighted Outstanding Shares: {{ renderstonkdata.weighted_shares_outstanding }}</p>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // get data
+  async function FetchStonksChartDataAction(y="1m", s) {
+    const StonksChart_response = await fetch('/api/get_stonks_chart_data?y='+ y+'&s='+ s);  //+'&s='+ s
+    const StonksChart_json = await StonksChart_response.json();
+    return StonksChart_json;
+  }
+    // display data
+  function DisplayStonksChartDataAction(y="1m", s){
+    const StonksChart_ctx = document.getElementById('stonks_chart_canvas');
+    const StonksChart_chartdata = FetchStonksChartDataAction(y, s).then(StonksChart_chartdata => {
+    new Chart(StonksChart_ctx, StonksChart_chartdata);
+    });
+  }
+  function UpdateStonksChartDataAction(y="1m", s){
+    const StonksChart_ctx = document.getElementById('stonks_chart_canvas');
+    const StonksChart_chartdata = FetchStonksChartDataAction(y, s).then(StonksChart_chartdata => {
+    new Chart(StonksChart_ctx, StonksChart_chartdata);
+    });
+  }
+  // let changeSelect = document.querySelector('#stonks_chart_select');
+  // react to change in diagram dash_over_time
+  function oneweekbutton(y, s) {
+    UpdateStonksChartDataAction(y, s);
+    StonksChart_ctx.update(StonksChart_chartdata);
+  }
+  function onemonthbutton(y, s) {
+    UpdateStonksChartDataAction(y, s);
+  }  
+  function threemonthsbutton(y, s) {
+    UpdateStonksChartDataAction(y, s);
+  }  
+  function sixmonthsbutton(y, s) {
+    UpdateStonksChartDataAction(y, s);
+  }
+  function oneyearbutton(y, s) {
+    UpdateStonksChartDataAction(y, s);
+  }
+  // const selectStonksChartElement = document.querySelector(".stonks_chart_select");
+
+  // selectStonksChartElement.addEventListener("change", (event) => {
+  //   DisplayStonksChartDataAction(event.target.value);
+  // });
+  DisplayStonksChartDataAction(y="1m", s)
+
+</script>
+{% endblock %}

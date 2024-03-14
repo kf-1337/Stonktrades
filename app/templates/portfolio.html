@@ -1,0 +1,27 @@
+{% extends 'content_base.html' %}
+
+{% block main_content %}
+
+<table class="portfolio_table_sortable">
+  <thead>
+    <tr>
+      {% for item in portfolio_header %}
+      <th>{{ item }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for stonksdata in portfolio_data %}
+    <tr>
+    {% for header, data in stonksdata.items() %}
+        <td>{{ data }} </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script src="../static/js/tablesort_portfolio.js"></script>
+
+{% endblock %}

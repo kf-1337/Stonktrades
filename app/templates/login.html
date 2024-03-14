@@ -1,0 +1,32 @@
+{% extends 'auth_base.html' %}
+
+{% block body %}
+<div id="login_div">
+    <h2>Login</h2>
+    <form action="/login" method="POST">
+        <fieldset>
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.username.label }}
+                {{ form.username }}
+            </div>
+            <div>
+                {{ form.password.label }}
+                {{ form.password }}
+            </div>
+        </fieldset>
+        <div>
+            {{ loginerror }}
+        </div>
+        <div>
+            {{ form.submit }}
+        </div>
+    </form>
+    <div>
+        <br />
+        <br />
+        <a href="/register">Register an account here</a>
+    </div>
+    <br />
+</div>
+{% endblock %}

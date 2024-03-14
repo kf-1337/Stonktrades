@@ -1,0 +1,98 @@
+{% extends 'admin_settings_base.html' %}
+
+{% block main_content %}
+
+<div id="usermgmt_div">
+    <div id="usermgmt_forms_div">
+        <div id="usermgmt_forms_deleteuser_div">
+            <br />
+            <h4>To delete a user: Fill out this form.</h4>
+            <p>(For a bit of safety id and username are asked in the form.)</p>
+            <br />
+            <form action="/admindashboard/usermgmt" method="post">
+                <fieldset>
+                    {{ formdelete.hidden_tag() }}
+                    <div>
+                        {{ formdelete.userid1.label }} <br />
+                        {{ formdelete.userid1 }}
+                    </div>
+                    <br />
+                    <div>
+                        {{ formdelete.username1.label }} <br />
+                        {{ formdelete.username1 }}
+                    </div>
+                </fieldset>
+                <br />
+                <div>
+                    {{ formdelete.submit1 }}
+                </div>
+            </form>
+        </div>
+        {{ formInvalidError }}
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div>
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <div id="usermgmt_forms_changerole_div">
+            <h4>To change to role of a user: Fill out this form.</h4>
+            <p>(For a bit of safety id and username are asked in the form.)</p>
+            <br />
+            <form action="/admindashboard/usermgmt" method="post">
+                <fieldset>
+                    {{ formrolechange.hidden_tag() }}
+                    <div>
+                        {{ formrolechange.userid2.label }} <br />
+                        {{ formrolechange.userid2 }}
+                    </div>
+                    <br />
+                    <div>
+                        {{ formrolechange.username2.label }} <br />
+                        {{ formrolechange.username2 }}
+                    </div>
+                    <br />
+                    <div>
+                        {{ formrolechange.role2.label }} <br />
+                        {{ formrolechange.role2 }}
+                    </div>
+                </fieldset>
+                <br />
+                <div>
+                    {{ formrolechange.submit2 }}
+                </div>
+            </form>
+            <br />
+        </div>
+
+
+        <!-- some form here -->
+    </div>
+    <div id="usermgmt_userlist_div">
+        <table class="usermgmt_table_sortable">
+            <thead>
+                <tr>
+                    {% for item in users_header %}
+                        <th>{{ item }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in result %}
+                <tr>
+                    <td>{{ row.id }} </td>
+                    <td>{{ row.username }} </td>
+                    <td>{{ row.role }} </td>
+                    <td>{{ row.password }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <script src="../static/js/tablesort_usermgmt.js"></script>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'content_base.html' %}
+
+{% block main_content %}
+
+<table class="orderhistory_table_sortable">
+  <thead>
+    <tr>
+      {% for item in orderhistory_header %}
+      <th>{{ item }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for item in orderhistory %}
+    <tr>
+        <td>{{ item.get("timestamp") }} </td>
+        <td>{{ item.get("ticker") }} </td>
+        <td>{{ item.get("price") }} </td>
+        <td>{{ item.get("trantype") }} </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script src="../static/js/tablesort_orderhistory.js"></script>
+
+{% endblock %}

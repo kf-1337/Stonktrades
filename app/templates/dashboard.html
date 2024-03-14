@@ -1,0 +1,85 @@
+{% extends 'content_base.html' %}
+
+{% block main_content %}
+
+<div id="dash_chartbox_div">
+  <div id="topx_div">
+      <h3>Portfolio Top Stocks</h3>
+      <select class="topx_select" name="topx_select" id="topx_select">
+        <option selected value="5">Top 5</option>
+        <option value="10">Top 10</option>
+        <option value="15">Top 15</option>
+      </select>
+      <canvas id="topx_chart_canvas"><p>Canvas with top 5/10/15 stocks in your portfolio..</p></canvas>
+  </div>
+
+  <div id="dash_over_time_div">
+      <h3>Portfolio over time</h3>
+      <select class="dash_over_time_select" name="dash_over_time_select" id="dash_over_time_select">
+        <option value="1w">1 Week</option>
+        <option selected value="1m">1 Month</option>
+        <option value="3m">3 Month</option>
+        <option value="6m">6 Month</option>
+        <option value="1y">1 Year</option>
+      </select>
+      <canvas id="dash_over_time_canvas"><p>Canvas with Portfolio over time..</p></canvas>
+  </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// react to change in diagram topx
+const selectTopXElement = document.querySelector(".topx_select");
+selectTopXElement.addEventListener("change", (event) => {
+  DisplayTopxDataAction(event.target.value);
+});
+
+  // get data
+  async function FetchTopxDataAction(x=5) {
+    const topx_response = await fetch('/api/get_topx_data?x='+ x);
+    const topx_json = await topx_response.json();
+    return topx_json;
+  }
+  // display data
+  function DisplayTopxDataAction(x=5){
+    const topx_ctx = document.getElementById('topx_chart_canvas');
+    const topx_chartdata = FetchTopxDataAction(x).then(topx_chartdata => {
+    new Chart(topx_ctx, topx_chartdata);
+  });
+  }
+
+  DisplayTopxDataAction()
+  
+
+</script>
+
+<script>
+  // react to change in diagram dash_over_time
+  const selectDashOverTimeElement = document.querySelector(".dash_over_time_select");
+  selectDashOverTimeElement.addEventListener("change", (event) => {
+    DisplayDashOverTimeDataAction(event.target.value);
+  });
+  
+    // get data
+    async function FetchDashOverTimeDataAction(y="1m") {
+      const DashOverTime_response = await fetch('/api/get_dash_over_time_data?y='+ y);
+      const DashOverTime_json = await DashOverTime_response.json();
+      return DashOverTime_json;
+    }
+    // display data
+    function DisplayDashOverTimeDataAction(y="1m"){
+      const DashOverTime_ctx = document.getElementById('dash_over_time_canvas');
+      const DashOverTime_chartdata = FetchDashOverTimeDataAction(y).then(DashOverTime_chartdata => {
+      new Chart(DashOverTime_ctx, DashOverTime_chartdata);
+    });
+    }
+  
+    DisplayDashOverTimeDataAction()
+    
+  
+  </script>
+  
+{% endblock %}

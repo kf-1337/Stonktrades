@@ -1,0 +1,8 @@
+{% for result in results %}
+<a href="/stonks/{{ result.ticker }}">
+    <tr>
+        <td id="searchbarresults_ticker"> {{ result.ticker }}</td>
+        <td id="searchbarresults_name"> {{ result.name }} </td>
+    </tr>
+</a>
+{% endfor %}

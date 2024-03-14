@@ -1,0 +1,69 @@
+{% extends 'content_base.html' %}
+
+{% block main_content %}
+
+<div id="watch_content_div">
+    <h3>Your Watchlist</h3>
+    <button onclick="grid2View()"><i class="gridbutton"></i> 2 Column Grid</button>
+    <button onclick="grid3View()"><i class="gridbutton"></i> 3 Column Grid</button>
+    <button onclick="grid4View()"><i class="gridbutton"></i> 4 Column Grid</button>
+</div>
+
+<div id="watch_grid_div">
+    <!-- Buttons to choose list or grid view -->
+        {% for item in watchlist %}
+        <div class="watch_grid_item">
+            <div class="watch_grid_item_top">
+                <div class="watch_grid_item_top_left">
+                    <h2>{{ item.get("ticker") }}</h2>
+                    <p>{{ item.get("name") }}</p>
+                </div>
+                <div class="watch_grid_item_top_right">
+                    {{ item.get("today") }} $
+                </div>
+            </div>
+
+            <div class="watch_grid_item_performance">
+                <p>1W: <br/>{{ item.get("oneweekdiff") }} %</p>
+                <p>1M: <br/>{{ item.get("onemonthdiff") }} %</p>
+                <p>3M: <br/>{{ item.get("threemonthsdiff") }} %</p>
+                <p>6M: <br/>{{ item.get("sixmonthsdiff") }} %</p>
+                <p>1Y: <br/>{{ item.get("oneyeardiff") }} %</p>
+
+            </div>
+        </div>
+        {% endfor %}
+</div>
+
+<script>
+
+    // const elements = document.getElementsByClassName("watch_grid_item");
+
+    // Declare a loop variable
+    //var i;
+
+    // List View
+    function grid2View() {
+        document.getElementById("watch_grid_div").style.gridTemplateColumns = "50% 50%"
+        // for (i = 0; i < elements.length; i++) {
+        //     elements[i].style.width = '45%';
+        // }
+    }
+
+    // Grid View
+    function grid3View() {
+        document.getElementById("watch_grid_div").style.gridTemplateColumns = "33.33% 33.33% 33.33%"
+        // for (i = 0; i < elements.length; i++) {
+        //     elements[i].style.width = '33%';
+        // }
+    }
+    function grid4View() {
+        document.getElementById("watch_grid_div").style.gridTemplateColumns = "25% 25% 25% 25%"
+        // for (i = 0; i < elements.length; i++) {
+        //     elements[i].style.width = '33%';
+        // }
+    }
+</script>
+
+
+{% endblock %}

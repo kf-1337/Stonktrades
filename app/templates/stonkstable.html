@@ -1,0 +1,33 @@
+{% extends 'content_base.html' %}
+
+{% block main_content %}
+
+Here will be a table soon.
+
+<table class="stonks_table_sortable">
+  <thead>
+    <tr>
+      {% for item in stonks_header_list %}
+      <th>{{ item }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for data in stonksdetails_list %}
+    <tr>
+        <td><a href="/stonks/{{ data[0] }}">{{ data[0] }}</a></td>
+        <td>{{ data[1] }} </td>
+        <td>{{ data[2] }} </td>
+        <!-- <td>{{ data[3] }} </td>
+        <td>{{ data[0] }} </td>
+        <td>{{ data[0] }} </td>
+        <td>{{ data[0] }} </td> -->
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script src="../static/js/tablesort_stonkstable.js"></script>
+
+{% endblock %}
